@@ -12,6 +12,19 @@ test('Testando banco de dados vazio', () => {
   expect(modelo.listar_perguntas().length).toBe(0);
 });
 
+
+test('Testando outro cadastro de 1 pergunta e 1 resposta', () => {
+  modelo.cadastrar_pergunta('1 + 7 = ?');
+  const perguntas = modelo.listar_perguntas(); 
+  id = perguntas[0].id_pergunta;
+  modelo.cadastrar_resposta(id, '8');
+  const pergunta = modelo.get_pergunta(id);
+  expect(modelo.get_num_respostas(id)).toBe(1);
+  expect(pergunta.texto).toBe('1 + 7 = ?');
+    
+});
+
+
 test('Testando cadastro de três perguntas', () => {
   modelo.cadastrar_pergunta('1 + 1 = ?');
   modelo.cadastrar_pergunta('2 + 2 = ?');
@@ -23,3 +36,14 @@ test('Testando cadastro de três perguntas', () => {
   expect(perguntas[2].num_respostas).toBe(0);
   expect(perguntas[1].id_pergunta).toBe(perguntas[2].id_pergunta-1);
 });
+
+test('Testando cadastro de 1 pergunta e 1 resposta', () => {
+  modelo.cadastrar_pergunta('1 + 1 = ?');
+  const perguntas = modelo.listar_perguntas(); 
+  id = perguntas[0].id_pergunta;
+  expect(perguntas.length).toBe(1);
+  modelo.cadastrar_resposta(id, '2');
+  const respostas = modelo.get_respostas(id);
+  expect(respostas.length).toBe(1);
+  expect(respostas[0].texto).toBe('2');
+  expect(modelo.get_num_respostas(id)).toBe(1);});
